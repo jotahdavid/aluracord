@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import Head from 'next/head';
 
 import appConfig from '../config.json';
 
@@ -27,6 +28,9 @@ export default function HomePage() {
 
   return (
     <>
+      <Head>
+        <title>Aluracord</title>
+      </Head>
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -82,6 +86,7 @@ export default function HomePage() {
                 const value = event.currentTarget.value;
                 setUsername(value);
               }}
+              placeholder='Digite o seu username'
             />
             <Button
               type='submit'
@@ -93,6 +98,7 @@ export default function HomePage() {
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
+              disabled={username.length === 0}
             />
           </Box>
           {/* Formulário */}
@@ -119,19 +125,25 @@ export default function HomePage() {
                 borderRadius: '50%',
                 marginBottom: '16px',
               }}
-              src={`https://github.com/${username}.png`}
-            />
-            <Text
-              variant="body4"
-              styleSheet={{
-                color: appConfig.theme.colors.neutrals[200],
-                backgroundColor: appConfig.theme.colors.neutrals[900],
-                padding: '3px 10px',
-                borderRadius: '1000px'
+              src={username.length > 0 ? `https://github.com/${username}.png` : '/images/blank-user.jpg'}
+              onError={(event) => {
+                const img = event.currentTarget;
+                img.src = '/images/blank-user.jpg';
               }}
-            >
-              {username}
-            </Text>
+            />
+            {username.length > 0 && (
+              <Text
+                variant="body4"
+                styleSheet={{
+                  color: appConfig.theme.colors.neutrals[200],
+                  backgroundColor: appConfig.theme.colors.neutrals[900],
+                  padding: '3px 10px',
+                  borderRadius: '1000px'
+                }}
+              >
+                {username}
+              </Text>
+            )}
           </Box>
           {/* Photo Area */}
         </Box>
