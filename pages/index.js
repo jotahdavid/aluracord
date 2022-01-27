@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
-import Head from 'next/head';
 
 import appConfig from '../config.json';
 
@@ -56,18 +56,18 @@ export default function HomePage() {
         >
           {/* Formulário */}
           <Box
-            as="form"
+            as='form'
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
             }}
             onSubmit={(event) => {
               event.preventDefault();
-              route.push('/chat');
+              route.push('/chat', '/chat', { shallow: username });
             }}
           >
-            <Title tag="h2">Boas vindas de volta!</Title>
-            <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
+            <Title tag='h2'>Boas vindas de volta!</Title>
+            <Text variant='body3' styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
               {appConfig.name}
             </Text>
 
@@ -82,10 +82,7 @@ export default function HomePage() {
                 },
               }}
               value={username}
-              onChange={(event) => {
-                const value = event.currentTarget.value;
-                setUsername(value);
-              }}
+              onChange={(event) => setUsername(event.currentTarget.value)}
               placeholder='Digite o seu username'
             />
             <Button
@@ -93,7 +90,7 @@ export default function HomePage() {
               label='Entrar'
               fullWidth
               buttonColors={{
-                contrastColor: appConfig.theme.colors.neutrals["000"],
+                contrastColor: appConfig.theme.colors.neutrals['000'],
                 mainColor: appConfig.theme.colors.primary[500],
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
@@ -133,7 +130,7 @@ export default function HomePage() {
             />
             {username.length > 0 && (
               <Text
-                variant="body4"
+                variant='body4'
                 styleSheet={{
                   color: appConfig.theme.colors.neutrals[200],
                   backgroundColor: appConfig.theme.colors.neutrals[900],
