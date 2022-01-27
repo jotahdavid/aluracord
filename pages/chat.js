@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import { parseCookies, destroyCookie } from 'nookies';
 
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 
 import appConfig from '../config.json';
 
-export default function ChatPage() {
+export default function ChatPage({ username }) {
   const [ message, setMessage ] = useState('');
   const [ messageList, setMessageList ] = useState([]);
 
@@ -13,7 +14,7 @@ export default function ChatPage() {
     if (!msg.length) return;
     const newMsg = {
       id: messageList.length + 1,
-      from: 'vanessametonini',
+      from: username,
       content: msg
     };
     setMessageList((prev) => [ newMsg, ...prev ]);
@@ -108,6 +109,7 @@ function Header() {
           Chat
         </Text>
         <Button
+          onClick={() => destroyCookie(null, 'USERNAME')}
           variant='tertiary'
           colorVariant='neutral'
           label='Logout'
@@ -171,7 +173,7 @@ function MessageList({ messages }) {
                 display: 'inline-block',
                 marginRight: '8px',
               }}
-              src={`https://github.com/vanessametonini.png`}
+              src={`https://github.com/${message.from}.png`}
             />
             <Text tag='strong'>
               {message.from}
@@ -192,4 +194,23 @@ function MessageList({ messages }) {
       ))}
     </Box>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const USERNAME = parseCookies(ctx).USERNAME;
+
+  if (!USERNAME) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    };
+  }
+
+  return {
+    props: {
+      username: USERNAME
+    }
+  };
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { setCookie } from 'nookies';
 
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 
@@ -63,7 +64,13 @@ export default function HomePage() {
             }}
             onSubmit={(event) => {
               event.preventDefault();
-              route.push('/chat', '/chat', { shallow: username });
+              setCookie(null, 'USERNAME', username, {
+                maxAge: 30 * 24 * 60 * 60,
+                path: '/',
+                sameSite: 'strict',
+                secure: true
+              });
+              route.push('/chat');
             }}
           >
             <Title tag='h2'>Boas vindas de volta!</Title>
