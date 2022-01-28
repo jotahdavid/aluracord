@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { parseCookies, destroyCookie } from 'nookies';
 
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
+import ButtonSendStickers from '../src/components/ButtonSendStickers';
 
 import appConfig from '../config.json';
 
@@ -62,9 +63,7 @@ export default function ChatPage({ username }) {
               padding: '16px',
             }}
           >
-
             <MessageList messages={messageList} />
-
             <Box
               as='form'
               styleSheet={{
@@ -89,10 +88,11 @@ export default function ChatPage({ username }) {
                   borderRadius: '5px',
                   padding: '6px 8px',
                   backgroundColor: appConfig.theme.colors.neutrals[800],
-                  // marginRight: '12px',
+                  marginRight: '12px',
                   color: appConfig.theme.colors.neutrals[200],
                 }}
               />
+              <ButtonSendStickers />
             </Box>
           </Box>
         </Box>
